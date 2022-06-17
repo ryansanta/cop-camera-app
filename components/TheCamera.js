@@ -13,7 +13,6 @@ export default function TheCamera({ route }): JSX.Element {
   const [cameraRef, setCameraRef] = useState(null)
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   const [ parentFolder, setParentFolder ] = useState(route.params.parentfolder);
-  console.log('parentFolder:', parentFolder);
 
 
   useEffect(() => {
@@ -99,7 +98,7 @@ export default function TheCamera({ route }): JSX.Element {
                 let newDir = await FileSystem.getInfoAsync(newDirName);
                 // console.log('newDir:', newDir);
                 // set new photo path
-                let newPhoto = newDir.uri + route.params.item.name + '.jpg';
+                let newPhoto = newDir.uri + route.params.item.id + ' ' + route.params.item.name + '.jpg';
                 let newPhotoNoSpaces = newPhoto.split(' ').join('_');
                 // set options and move photo from cache to new directory
                 let options = {
@@ -122,7 +121,7 @@ export default function TheCamera({ route }): JSX.Element {
 
               } else if (checker.exists === true) {
                 // set new photo path
-                let newPhoto = checker.uri + route.params.item.name + '.jpg';
+                let newPhoto = checker.uri + route.params.item.id + ' ' + route.params.item.name + '.jpg';
                 let newPhotoNoSpaces = newPhoto.split(' ').join('_');
                 // set options and move photo to existing directory
                 let options = {

@@ -23,7 +23,6 @@ export default function COPListScreen({ route, navigation, item }) {
 
   if ( copList === null ) {
     setList();
-  } else {
   };
 
 
@@ -33,7 +32,7 @@ export default function COPListScreen({ route, navigation, item }) {
          <Text style={styles.buttonTitle}>{item.id} : {item.name}</Text>
        </TouchableOpacity>
      );
-   }
+   };
 
 
    const renderItem = ({ item, naviagation, route }) => {

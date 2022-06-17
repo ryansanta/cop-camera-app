@@ -21,7 +21,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ryansanta.camtest",
-      "buildNumber" : "4"
+      "buildNumber" : "6"
     },
     "android": {
       "adaptiveIcon": {

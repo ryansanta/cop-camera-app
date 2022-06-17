@@ -49,22 +49,21 @@ export default function HomeScreen({ navigation, route, item }) {
 
   async function checkGoogle() {
     if (GDrive.isInitialized() === true) {
-      navAuth();
+      let check = await checkParent();
+      let parentFolder = check;
+      navAuth(parentFolder);
     } else {
       Alert.alert('Google Drive', 'Did you want to login and upload to Google Drive?', [
       {
-        text: 'Ignore',
-        onPress: () => navAuth()
+        text: 'Offline Mode',
+        onPress: () => navAuth(null)
       },
       { text: 'OK', onPress: () => console.log('OK Pressed') },
     ]);
     }
   }
 
-  async function navAuth() {
-    let check = await checkParent();
-    let parentFolder = check;
-
+  async function navAuth(parentFolder) {
     if (await getKeyInfo(siteID) === null) {
       await storeData(thecoplist.coparray, siteID);
       let item = await getMulti(siteID);
