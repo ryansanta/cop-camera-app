@@ -17,7 +17,7 @@ export default function HomeScreen({ navigation, route, item }) {
   console.log('siteID:', siteID);
   let parentFolder;
 
-  // multiDelete();
+  // multiDelete('123');
 
   async function checkParent() {
 
