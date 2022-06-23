@@ -9,7 +9,6 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-components/google/gAuth*
 
 # macOS
 .DS_Store

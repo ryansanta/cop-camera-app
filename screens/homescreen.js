@@ -12,7 +12,7 @@ import { listFile, createFolder } from '../components/google/gHelpers';
 
 export default function HomeScreen({ navigation, route, item }) {
 
-  const thecoplist = require('../components/coptitles.js');
+  const thecoplist = require('../assets/coptitles.js');
   const [ siteID, setSiteID ] = useState('');
   console.log('siteID:', siteID);
   let parentFolder;

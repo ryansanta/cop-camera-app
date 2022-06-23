@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const coplist = require('./coptitles.js');
 
 export async function storeData (value, site) {
  try {

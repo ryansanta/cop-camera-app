@@ -9,7 +9,7 @@ export default function ModalHeader({ navigation, route }) {
       <View>
       </View>
       <Pressable
-        onPress={() => navigation.navigate('Modal', { headerTitle: route.params.item.id.concat(' : ', route.params.item.name) })}
+        onPress={() => navigation.navigate('Modal', { headerTitle: route.params.item.id.concat(' : ', route.params.item.name), item: route.params.item })}
         style={({ pressed }) => ({
           opacity: pressed ? 0.5 : 1,
         })}>
