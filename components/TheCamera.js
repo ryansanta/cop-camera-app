@@ -1,18 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, StatusBar, TouchableOpacity, Modal } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, StatusBar, TouchableOpacity, Modal } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import { Camera } from 'expo-camera';
 // import Constants from 'expo-constants';
 import * as FileSystem from 'expo-file-system';
 import { createImage } from './google/gHelpers';
+import ZoomView from '../components/ZoomView';
 
 
 export default function TheCamera({ route }): JSX.Element {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [mlPermission, setMLHasPermission] = useState(null);
-  const [cameraRef, setCameraRef] = useState(null)
-  const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
+  const [ hasPermission, setHasPermission ] = useState(null);
+  const [ mlPermission, setMLHasPermission ] = useState(null);
+  const [ cameraRef, setCameraRef ] = useState(null)
+  const [ cameraType, setCameraType ] = useState(Camera.Constants.Type.back);
   const [ parentFolder, setParentFolder ] = useState(route.params.parentfolder);
+  const [ theZoom, setTheZoom ] = useState(0);
 
 
   useEffect(() => {
@@ -43,11 +45,29 @@ export default function TheCamera({ route }): JSX.Element {
     return <Text>No access to Library!</Text>;
   }
 
+  let onGesturePinch = (p) => {
+    let p2 = p - 1;
+
+    if(p2 > 0 && p2 > 0.007){
+      let _prevPinch = p;
+      setTheZoom(Math.min(theZoom + 0.007, 1))
+    }
+    else if (p2 < 0 && p2 < -0.007){
+      let _prevPinch = p;
+      setTheZoom(Math.max(theZoom - 0.007, 0))
+    }
+  }
+
   return (
+
     <View style={{ flex: 1 }}>
+      <ZoomView
+          onPinchStart={() => {}}
+          onPinchEnd={() => {}}
+          onPinchProgress={onGesturePinch}>
       <Camera style={{ flex: 1 }} type={cameraType} ref={ref => {
         setCameraRef(ref) ;
-  }}>
+  }} zoom={theZoom}>
         <View
           style={{
             flex: 1,
@@ -167,7 +187,9 @@ export default function TheCamera({ route }): JSX.Element {
           </TouchableOpacity>
         </View>
       </Camera>
+      </ZoomView>
     </View>
+
   )
 }
 

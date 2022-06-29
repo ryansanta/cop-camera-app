@@ -2,12 +2,13 @@ import React from 'react';
 import { TheCamera } from '../components/TheCamera';
 import { StyleSheet, Text, View, ScrollView, StatusBar, TouchableOpacity } from 'react-native';
 
+
 export default function CameraScreen({ navigation, route }) {
 
   const parentFolder = route.params.parentfolder;
   const item = route.params.item;
   const siteID = route.params.siteid;
-  // const copList = route.params.coplist;
+
 
   return (
     <View style={styles.container}>
