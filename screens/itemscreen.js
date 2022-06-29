@@ -10,7 +10,10 @@ export default function ItemScreen({ navigation, route }) {
   const parentFolder = route.params.parentfolder;
   const item = route.params.item;
   let siteID = route.params.siteid;
-  const [ buttonColor, changeButtonColor ] = useState('#ff7f7f');
+  let bgColor = item['complete'] === '0' ? '#ff7f7f' : '#d9f9b1';
+  let textChange = item['complete'] === '0' ? 'Complete Item' : 'Item Completed';
+  const [ buttonColor, changeButtonColor ] = useState(bgColor);
+  const [ completeText, changeCompleteText ] = useState(textChange);
 
   console.log('parentFolder:', parentFolder);
   console.log('item:', item);
@@ -35,6 +38,7 @@ export default function ItemScreen({ navigation, route }) {
       copList[itemnum]['complete'] = 1;
       item['complete'] = 1;
       changeButtonColor('#d9f9b1');
+      changeCompleteText('Item Completed');
       await storeData(copList, siteID);
       // await getMulti(siteID);
     };
@@ -51,7 +55,7 @@ export default function ItemScreen({ navigation, route }) {
       <Text style={styles.buttonTitle}>Open Camera</Text>
       </TouchableOpacity>
       <TouchableOpacity style={[ styles.buttonContainer, { backgroundColor: buttonColor } ]} onPress={() => { isComplete(); }}>
-      <Text style={styles.buttonTitle}>Complete Item</Text>
+      <Text style={styles.buttonTitle}>{completeText}</Text>
       </TouchableOpacity>
     </View>
   )
