@@ -67,7 +67,7 @@ export default function TheCamera({ route }): JSX.Element {
           onPinchProgress={onGesturePinch}>
       <Camera style={{ flex: 1 }} type={cameraType} ref={ref => {
         setCameraRef(ref) ;
-  }} zoom={theZoom}>
+  }} zoom={theZoom} flashMode={'auto'} >
         <View
           style={{
             flex: 1,
@@ -99,7 +99,7 @@ export default function TheCamera({ route }): JSX.Element {
 
             if(cameraRef) {
               // take photo and upload to drive
-              let photo = await cameraRef.takePictureAsync({ base64: false, exif: true });
+              let photo = await cameraRef.takePictureAsync({ base64: false, exif: true, quality: 0.8 });
               console.log('photo:', photo);
               let parentFolder = route.params.parentfolder;
               let name = route.params.item.id + '. ' + route.params.item.name;
