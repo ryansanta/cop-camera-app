@@ -102,7 +102,7 @@ export default function TheCamera({ route }): JSX.Element {
               let photo = await cameraRef.takePictureAsync({ base64: false, exif: true, quality: 0.8 });
               console.log('photo:', photo);
               let parentFolder = route.params.parentfolder;
-              let name = route.params.item.id + '. ' + route.params.item.name;
+              let name = route.params.item.id + ' ' + route.params.item.name;
               let gUpload = await createImage(parentFolder, name, photo.uri);
 
               // check if that directory exists
