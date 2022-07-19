@@ -50,11 +50,9 @@ export async function getMulti(key) {
 }
 
 export async function multiDelete(sites) {
-  const keys = [
-  sites
-];
-  console.log('keys:', keys);
   try {
+    const keys = sites.split(',');
+    console.log('keys:', keys);
     await AsyncStorage.multiRemove(keys);
   } catch(e) {
     console.log(e);

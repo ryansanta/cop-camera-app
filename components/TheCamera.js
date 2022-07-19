@@ -6,6 +6,8 @@ import { Camera } from 'expo-camera';
 import * as FileSystem from 'expo-file-system';
 import { createImage } from './google/gHelpers';
 import ZoomView from '../components/ZoomView';
+import { storeData, getMulti } from '../components/asyncdb';
+import NetInfo from '@react-native-community/netinfo';
 
 
 export default function TheCamera({ route }): JSX.Element {
@@ -15,6 +17,28 @@ export default function TheCamera({ route }): JSX.Element {
   const [ cameraType, setCameraType ] = useState(Camera.Constants.Type.back);
   const [ parentFolder, setParentFolder ] = useState(route.params.parentfolder);
   const [ theZoom, setTheZoom ] = useState(0);
+  let item = route.params.item;
+  let [ copList, setCopList ] = useState(null);
+  let isStarted = item.started;
+  let siteID = route.params.siteid;
+
+
+  NetInfo.fetch().then(state => {
+  console.log('Connection type', state.type);
+  console.log('Is connected?', state.isConnected);
+  });
+
+
+  async function setList() {
+    let thelist: string[] = [];
+    thelist = await getMulti(siteID);
+    setCopList(thelist);
+    console.log('copList has been set.');
+  };
+
+  if ( copList === null ) {
+    setList();
+  };
 
 
   useEffect(() => {
@@ -98,6 +122,14 @@ export default function TheCamera({ route }): JSX.Element {
           <TouchableOpacity style={{alignSelf: 'center', marginBottom: 20}} onPress={async() => {
 
             if(cameraRef) {
+
+              if (isStarted === '0'){
+                let itemnum = item.id - 1;
+                copList[itemnum]['started'] = '1';
+                item['started'] = '1';
+                storeData(copList, siteID);
+              }
+
               // take photo and upload to drive
               let photo = await cameraRef.takePictureAsync({ base64: false, exif: true, quality: 0.8 });
               console.log('photo:', photo);
@@ -162,6 +194,7 @@ export default function TheCamera({ route }): JSX.Element {
                   MediaLibrary.createAlbumAsync(route.params.siteid, final);
                 }
               }
+
             }
           }
         }>

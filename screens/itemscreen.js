@@ -32,7 +32,7 @@ export default function ItemScreen({ navigation, route }) {
   };
 
 
-  async function isComplete() {
+  function isComplete() {
     Alert.alert('COP Item Finished', 'Are you sure you\'ve taken all required photos?', [
       {
          text: 'Cancel',
@@ -44,14 +44,14 @@ export default function ItemScreen({ navigation, route }) {
   };
 
 
-    async function setComplete() {
-      let itemnum = item.id - 1;
-      copList[itemnum]['complete'] = 1;
-      item['complete'] = 1;
-      changeButtonColor('#d9f9b1');
-      changeCompleteText('Item Completed');
-      storeData(copList, siteID);
-    };
+  async function setComplete() {
+    let itemnum = item.id - 1;
+    copList[itemnum]['complete'] = '1';
+    item['complete'] = '1';
+    changeButtonColor('#d9f9b1');
+    changeCompleteText('Item Completed');
+    storeData(copList, siteID);
+  };
 
 
 

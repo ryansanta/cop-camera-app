@@ -4,7 +4,7 @@
     "slug": "cam-test2",
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "./assets/images/logo.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "com.ryansanta.camtest",
     "userInterfaceStyle": "light",
     "splash": {

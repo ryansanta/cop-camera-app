@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, FlatList, StatusBar } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 import { getMulti } from '../components/asyncdb';
 import { listFolder } from '../components/google/gHelpers';
 import { useFocusEffect } from '@react-navigation/native';
@@ -14,8 +15,7 @@ export default function COPListScreen({ route, navigation, item }) {
 
 
   async function setList() {
-    let thelist: string[] = [];
-    thelist = await getMulti(siteID);
+    let thelist = await getMulti(siteID);
     setCopList(thelist);
     console.log('copList has been set.');
   };
@@ -25,10 +25,28 @@ export default function COPListScreen({ route, navigation, item }) {
   };
 
 
-  function Item({ item, onPress, backgroundColor }): JSX.Element {
+
+  function Item({ item, onPress, backgroundColor }) {
+    function ItemStarted() {
+      let isStarted = item.started;
+      let isComplete = item.complete;
+      if (isStarted === '1' && isComplete === '0') {
+        return (
+          <FontAwesome
+            name="play-circle"
+            size={25}
+            color="darkred"
+            style={{ marginLeft: 15, alignSelf: 'center' }}
+          />
+        )
+      } else {
+        return(null)
+      }
+    }
     return (
       <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
         <Text style={styles.buttonTitle}>{item.id} : {item.name}</Text>
+        <ItemStarted />
       </TouchableOpacity>
     );
   };
@@ -50,7 +68,7 @@ export default function COPListScreen({ route, navigation, item }) {
 
   return (
     <SafeAreaView style={styles.container}>
-       <Text style={styles.header}>
+     <Text style={styles.header}>
        SiteID: {siteID}
      </Text>
      <FlatList
@@ -64,7 +82,7 @@ export default function COPListScreen({ route, navigation, item }) {
 
 
   export {COPListScreen};
-  
+
 
   const styles = StyleSheet.create({
     container: {
@@ -72,10 +90,13 @@ export default function COPListScreen({ route, navigation, item }) {
       marginTop: StatusBar.currentHeight || 0,
     },
     item: {
-      padding: 12,
+      flex: 1,
+      flexDirection: 'row',
+      padding: 20,
       marginVertical: 4,
-      marginHorizontal: 5,
-      borderRadius: 12
+      marginHorizontal: 10,
+      borderRadius: 12,
+      alignItems: 'center'
     },
     buttonTitle: {
       fontSize: 16,

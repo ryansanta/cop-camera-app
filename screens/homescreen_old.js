@@ -9,11 +9,11 @@ import { storeData, getAllKeys, multiDelete, getKeyInfo, getMulti } from '../com
 import { listFile, createFolder } from '../components/google/gHelpers';
 
 
+
 export default function HomeScreen({ navigation, route, item }) {
 
   let thecoplist = require('../assets/coptitles.js');
   const [ siteID, setSiteID ] = useState('');
-  let offlineMode = true;
   console.log('siteID:', siteID);
 
   // multiDelete('123,124,125');
@@ -53,7 +53,7 @@ export default function HomeScreen({ navigation, route, item }) {
       Alert.alert('Google Drive', 'Did you want to login and upload to Google Drive?', [
       {
         text: 'Offline Mode',
-        onPress: () => navAuth(null)
+        onPress: async() => await navAuth(null)
       },
       { text: 'OK', onPress: () => console.log('OK Pressed') },
     ]);
@@ -61,13 +61,16 @@ export default function HomeScreen({ navigation, route, item }) {
   }
 
   async function navAuth(theFolder) {
-
     if (await getKeyInfo(siteID) === null) {
+      console.log('YOU ARE HERE. Key doesn\'t exist.');
       await storeData(thecoplist.coparray, siteID);
-      navigation.navigate('COP Photo List', { siteid: siteID, parentfolder: theFolder });
+      let item = await getMulti(siteID);
+      navigation.navigate('COP Photo List', { siteid: siteID, parentfolder: theFolder, item: item });
 
     } else {
-      navigation.navigate('COP Photo List', { siteid: siteID, parentfolder: theFolder });
+      console.log('YOU ARE HERE. Key exists.');
+      let item = await getMulti(siteID);
+      navigation.navigate('COP Photo List', { siteid: siteID, parentfolder: theFolder, item: item });
     }
   };
 
