@@ -48,13 +48,13 @@ export default function TheCamera({ route }): JSX.Element {
   let onGesturePinch = (p) => {
     let p2 = p - 1;
 
-    if(p2 > 0 && p2 > 0.007){
+    if(p2 > 0 && p2 > 0.006){
       let _prevPinch = p;
-      setTheZoom(Math.min(theZoom + 0.007, 1))
+      setTheZoom(Math.min(theZoom + 0.006, 1))
     }
     else if (p2 < 0 && p2 < -0.007){
       let _prevPinch = p;
-      setTheZoom(Math.max(theZoom - 0.007, 0))
+      setTheZoom(Math.max(theZoom - 0.006, 0))
     }
   }
 

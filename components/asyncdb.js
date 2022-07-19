@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export async function storeData (value, site) {
  try {
-   await AsyncStorage.setItem(site, JSON.stringify(value))
+   await AsyncStorage.setItem(site, await JSON.stringify(value))
    console.log('STORED!');
  } catch (e) {
    console.log(e);
@@ -16,7 +16,7 @@ export async function getKeyInfo (key) {
     const value = await AsyncStorage.getItem(key, JSON.stringify(value))
     if(value !== null) {
       console.log('Key Found!');
-      // return value;
+      return value;
     } else {
       console.log('Key doesn\'t exist!');
       return null;
@@ -41,7 +41,7 @@ export async function getMulti(key) {
    const value = await AsyncStorage.getItem(key)
    if(value !== null) {
      // console.log('Done getting data.', JSON.parse(value));
-     const data = JSON.parse(value);
+     const data = await JSON.parse(value);
      return data;
    }
  } catch(e) {

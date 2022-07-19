@@ -4,7 +4,7 @@
     "slug": "cam-test2",
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/logo.png",
     "scheme": "com.ryansanta.camtest",
     "userInterfaceStyle": "light",
     "splash": {
@@ -21,7 +21,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ryansanta.camtest",
-      "buildNumber" : "8"
+      "buildNumber" : "12"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,7 +30,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/images/favicon.png"
     }
   }
 }

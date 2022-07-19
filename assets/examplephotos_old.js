@@ -399,6 +399,24 @@ var examplearray = [
     "id" : "78",
     "photo1" : require('../assets/examplephotos/78-1.jpg'),
     "photo2" : require('../assets/examplephotos/78-2.jpg')
-  }
+  },
+  {
+    "id" : "79",
+    "photo1" : require('../assets/examplephotos/79-1.jpg'),
+    "photo2" : require('../assets/examplephotos/79-2.jpg'),
+    "photo3" : require('../assets/examplephotos/79-3.jpg')
+  },
+  {
+    "id" : "80",
+    "photo1" : require('../assets/examplephotos/80-1.jpg'),
+    "photo2" : require('../assets/examplephotos/80-2.jpg'),
+    "photo3" : require('../assets/examplephotos/80-3.jpg')
+  },
+  {
+    "id" : "81",
+    "photo1" : require('../assets/examplephotos/81-1.jpg'),
+    "photo2" : require('../assets/examplephotos/81-2.jpg'),
+    "photo3" : require('../assets/examplephotos/81-3.jpg')
+  },
 ]
 export {examplearray};

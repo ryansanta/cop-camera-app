@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import GDrive from "expo-google-drive-api-wrapper";
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -16,12 +16,24 @@ export default function GAuth() {
     // webClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
   });
 
+  function alertDriveSuccess() {
+    Alert.alert('Google Drive', 'Google Drive is initialized. Login was successful!', [
+      { text: 'OK', onPress: () => console.log('OK Pressed') },
+    ]);
+  };
+
+  function alertDriveFail() {
+    Alert.alert('Google Drive', 'Google Drive failed to initialize. Login was unsuccessful, please try again or use offline mode!', [
+      { text: 'OK', onPress: () => console.log('OK Pressed') },
+    ]);
+  };
+
   useEffect(() => {
     if (response?.type === 'success') {
       const { authentication } = response;
         GDrive.setAccessToken(response.params.access_token);
         GDrive.init();
-        GDrive.isInitialized() ? console.log('Google Drive is initialized!') : console.log('Google Drive failed to initialize!');
+        GDrive.isInitialized() ? console.log('Google Drive is initialized!') & alertDriveSuccess() : console.log('Google Drive failed to initialize!') & alertDriveFail();
     }
   }, [response]);
 

@@ -8,39 +8,49 @@ import { storeData, getMulti } from '../components/asyncdb';
 export default function ItemScreen({ navigation, route }) {
 
   const parentFolder = route.params.parentfolder;
-  const item = route.params.item;
-  let siteID = route.params.siteid;
+  const siteID = route.params.siteid;
+  let item = route.params.item;
   let bgColor = item['complete'] === '0' ? '#ff7f7f' : '#d9f9b1';
   let textChange = item['complete'] === '0' ? 'Complete Item' : 'Item Completed';
-  const [ buttonColor, changeButtonColor ] = useState(bgColor);
-  const [ completeText, changeCompleteText ] = useState(textChange);
+  let [ buttonColor, changeButtonColor ] = useState(bgColor);
+  let [ completeText, changeCompleteText ] = useState(textChange);
+  let [ copList, setCopList ] = useState(null);
 
   console.log('parentFolder:', parentFolder);
   console.log('item:', item);
   console.log('siteID:', siteID);
 
+  async function setList() {
+    let thelist: string[] = [];
+    thelist = await getMulti(siteID);
+    setCopList(thelist);
+    console.log('copList has been set.');
+  };
 
-  function isComplete() {
+  if ( copList === null ) {
+    setList();
+  };
+
+
+  async function isComplete() {
     Alert.alert('COP Item Finished', 'Are you sure you\'ve taken all required photos?', [
       {
          text: 'Cancel',
          onPress: () => { return null },
          style: 'cancel',
        },
-       { text: 'OK', onPress: () => { setComplete() } },
+       { text: 'OK', onPress: () => { setComplete(); } },
       ]);
   };
 
 
     async function setComplete() {
-      let copList = await getMulti(siteID);
       let itemnum = item.id - 1;
       copList[itemnum]['complete'] = 1;
       item['complete'] = 1;
       changeButtonColor('#d9f9b1');
       changeCompleteText('Item Completed');
-      await storeData(copList, siteID);
-      // await getMulti(siteID);
+      storeData(copList, siteID);
     };
 
 
@@ -54,7 +64,7 @@ export default function ItemScreen({ navigation, route }) {
       }}>
       <Text style={styles.buttonTitle}>Open Camera</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[ styles.buttonContainer, { backgroundColor: buttonColor } ]} onPress={() => { isComplete(); }}>
+      <TouchableOpacity style={[ styles.buttonContainer, { backgroundColor: buttonColor } ]} onPress={async() => { await isComplete(); }}>
       <Text style={styles.buttonTitle}>{completeText}</Text>
       </TouchableOpacity>
     </View>
@@ -86,14 +96,14 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: Dimensions.get('window').width - 20,
     height: 100,
-    borderWidth: 2,
+    borderWidth: 0,
     borderColor: 'lightgrey',
     alignItems: 'center',
     alignSelf: 'center',
     justifyContent: 'center',
     padding: 10,
     borderRadius: 15,
-    marginVertical: 10
+    marginVertical: 8
   },
   buttonTitle: {
     fontSize: 35,

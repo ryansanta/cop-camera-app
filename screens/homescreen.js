@@ -12,12 +12,12 @@ import { listFile, createFolder } from '../components/google/gHelpers';
 
 export default function HomeScreen({ navigation, route, item }) {
 
-  const thecoplist = require('../assets/coptitles.js');
+  let thecoplist = require('../assets/coptitles.js');
   const [ siteID, setSiteID ] = useState('');
   console.log('siteID:', siteID);
-  let parentFolder;
+  // const parentFolder;
 
-  // multiDelete('123');
+  // multiDelete('[123, 124, 125]');
 
   async function checkParent() {
 
@@ -26,9 +26,7 @@ export default function HomeScreen({ navigation, route, item }) {
 
     if (check['files'].length == 0) {
       console.log('Folder doesn\'t exist yet.');
-      // await multiDelete(siteID);
-      // console.log('Old data cleaned up.');
-      await createFolder(siteID)
+      await createFolder(siteID);
       const check = await listFile(siteID);
       // console.log('Check, no exist:', check);
       const check1 = check['files'][0]['id'];
@@ -50,35 +48,32 @@ export default function HomeScreen({ navigation, route, item }) {
   async function checkGoogle() {
     if (GDrive.isInitialized() === true) {
       let check = await checkParent();
-      let parentFolder = check;
+      const parentFolder = check;
       navAuth(parentFolder);
     } else {
       Alert.alert('Google Drive', 'Did you want to login and upload to Google Drive?', [
       {
         text: 'Offline Mode',
-        onPress: () => navAuth(null)
+        onPress: async() => await navAuth(null)
       },
       { text: 'OK', onPress: () => console.log('OK Pressed') },
     ]);
     }
   }
 
-  async function navAuth(parentFolder) {
+  async function navAuth(theFolder) {
     if (await getKeyInfo(siteID) === null) {
+      console.log('YOU ARE HERE. Key doesn\'t exist.');
       await storeData(thecoplist.coparray, siteID);
       let item = await getMulti(siteID);
-      navigation.navigate('COP Photo List', { siteid: siteID, parentfolder: parentFolder, item: item  });
+      navigation.navigate('COP Photo List', { siteid: siteID, parentfolder: theFolder, item: item });
+
     } else {
+      console.log('YOU ARE HERE. Key exists.');
       let item = await getMulti(siteID);
-      navigation.navigate('COP Photo List', { siteid: siteID, parentfolder: parentFolder, item: item });
+      navigation.navigate('COP Photo List', { siteid: siteID, parentfolder: theFolder, item: item });
     }
   };
-
-
-
-      // await multiDelete();
-      // console.log(await getAllKeys());
-
 
 
   return (
@@ -142,6 +137,6 @@ const styles = StyleSheet.create({
     height: 340,
     resizeMode: 'contain',
     backgroundColor: '#fff',
-    marginBottom: 10
+    marginVertical: 10
   }
 });
